@@ -2,7 +2,7 @@
 import db from '../config/mysql.js';
 
 export const getAllProduct = () => {
-
+    return 'ok';
 };
 
 export const getProductById = (id) => {
