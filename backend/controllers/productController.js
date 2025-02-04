@@ -18,7 +18,7 @@ export const getProductById = (req, res) => {
 export const createProduct = (req, res) => {
   const product = req.body;
   Product.createProduct(product, (err, results) => {
-    if (err.message.includes("La catégorie doit contenir uniquement des lettres et des chiffres")) {
+    if (err.message.includes("La catégorie doit contenir uniquement des lettres")) {
       return res.status(400).json({ error: err.message });
     }
     if (err) return res.status(500).json(err);
@@ -34,9 +34,3 @@ export const updateProduct = (req, res) => {
   });
 };
 
-export const deleteProduct = (req, res) => {
-  Product.deleteProduct(req.params.id, (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: 'Produit supprimé' });
-  });
-};
