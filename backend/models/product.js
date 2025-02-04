@@ -12,28 +12,23 @@ export const getProductById = (id,callback) => {
 export const createProduct = (product,callback) => {
   const { nom, description, prix, categorie, revendeur } = product;
 
-  if (categorie && !/^[A-Za-z0-9]+$/.test(categorie)) {
-    return callback(new Error("La catégorie doit contenir uniquement des lettres et des chiffres."));
+  if (categorie && !/^[A-Za-z]+$/.test(categorie)) {
+    return callback(new Error("La catégorie doit contenir uniquement des lettres."));
+  }
+  if (revendeur && !/^[A-Za-z]+$/.test(revendeur)) {
+    return callback(new Error("Le revendeur doit contenir uniquement des lettres."));
   }
   
   const query = 'CALL CreateProduit(?, ?, ?, ?, ?)';
     
-  db.query(query, [nom, description, prix, categorie.toLowerCase(), revendeur], callback);
+  db.query(query, [nom, description, prix, categorie.toLowerCase(), revendeur.toLowerCase()], callback);
 };
 
-export const updateProduct = (id, product,callback) => {
+export const updateProduct = (product,callback) => {
   const {id, nom, description, prix, statut } = product;
-
-  if (categorie && !/^[A-Za-z0-9]+$/.test(categorie)) {
-    return callback(new Error("La catégorie doit contenir uniquement des lettres et des chiffres."));
-  }
   
   const query = 'CALL ModifyProduit(?,?, ?, ?, ?)';
     
-  db.query(query, [id,nom, description, prix,statut], callback);
+  db.query(query, [id,nom, description, prix, statut], callback);
     
-};
-
-export const deleteProduct = (id,callback) => {
-    db.query('CALL CreateProduit(nom,descrioption,prix,categorie,revendeur',callback)
 };
