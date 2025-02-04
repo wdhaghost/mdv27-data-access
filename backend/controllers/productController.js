@@ -18,6 +18,9 @@ export const getProductById = (req, res) => {
 export const createProduct = (req, res) => {
   const product = req.body;
   Product.createProduct(product, (err, results) => {
+    if (err.message.includes("La catégorie doit contenir uniquement des lettres et des chiffres")) {
+      return res.status(400).json({ error: err.message });
+    }
     if (err) return res.status(500).json(err);
     res.status(201).json({ message: 'Produit créé', id: results.insertId });
   });
