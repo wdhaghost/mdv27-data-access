@@ -6,12 +6,11 @@ export const getAllProduct = (callback) => {
 };
 
 export const getProductById = (id,callback) => {
-    db.query('SELECT * FROM produits WHERE id = ?', [id], callback);
+    db.query('SELECT * FROM produits WHERE produits_id = ?', [id], callback);
 };
 
 export const createProduct = (product,callback) => {
   const { nom, description, prix, categorie, revendeur } = product;
-
   if (categorie && !/^[A-Za-z]+$/.test(categorie)) {
     return callback(new Error("La catégorie doit contenir uniquement des lettres."));
   }
@@ -20,7 +19,6 @@ export const createProduct = (product,callback) => {
   }
   
   const query = 'CALL CreateProduit(?, ?, ?, ?, ?)';
-    
   db.query(query, [nom, description, prix, categorie.toLowerCase(), revendeur.toLowerCase()], callback);
 };
 
