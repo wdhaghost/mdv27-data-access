@@ -5,8 +5,19 @@ import CreateComponent from "./components/crud/create/CreateComponent.vue";
 import UpdateComponent from "./components/crud/update/UpdateComponent.vue";
 import ReadComponent from "./components/crud/read/ReadComponent.vue";
 import DeleteComponent from "./components/crud/delete/DeleteComponent.vue";
+import { getAllProduct } from "./fetch/ProductRequest";
+import { getAllSeller } from "./fetch/SellerRequest";
 
 const dbType = ref("systeme-central");
+const products = ref([]);
+const sellers = ref([]);
+
+const updateProducts = async ()=>{
+  products.value = await getAllProduct();
+}
+const updateSellers = async ()=>{
+  sellers.value = await getAllSeller();
+}
 
 </script>
 
@@ -17,7 +28,7 @@ const dbType = ref("systeme-central");
 
   <main>
     <section class="CRUD" v-if="dbType === 'systeme-central'">
-      <CreateComponent/>
+      <CreateComponent @updateSystemeCentral="updateSystemeCentral"/>
       <UpdateComponent/>
       <DeleteComponent/>  
     </section>

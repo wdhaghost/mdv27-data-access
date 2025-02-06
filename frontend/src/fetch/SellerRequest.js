@@ -1,8 +1,11 @@
 const url = import.meta.env.VITE_BACKEND_URL;
 
 export async function getAllSeller() {
-    return await fetch(`${url}/`, {
+    return await fetch(`${url}/api/resellers`, {
         method: "GET",
+        headers: {
+            "Content-Type":"application/json"
+        }
     }).then((value) => {
         return value.json()
     }).catch((error) => {
@@ -12,8 +15,11 @@ export async function getAllSeller() {
 }
 
 export async function createSeller(seller) {
-    return await fetch(`${url}/reseller`, {
+    return await fetch(`${url}/api/resellers`, {
         method: "POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
         body: JSON.stringify(seller)
     }).catch((error) => {
         console.error(error);
@@ -22,8 +28,11 @@ export async function createSeller(seller) {
 }
 
 export async function updateSeller(seller) {
-    return await fetch(`${url}/reseller`, {
+    return await fetch(`${url}/api/resellers`, {
         method: "PUT",
+        headers: {
+            "Content-Type":"application/json"
+        },
         body: JSON.stringify(seller),
     }).catch((error) => {
         console.error(error);
@@ -31,9 +40,12 @@ export async function updateSeller(seller) {
     });
 }
 
-export async function deleteSeller() {
-    return await fetch(`${url}/resellers`, {
+export async function deleteSeller(seller) {
+    return await fetch(`${url}/api/resellers`, {
         method: "DELETE",
+        headers: {
+            "Content-Type":"application/json"
+        },
         body: JSON.stringify(seller),
     });
 }
