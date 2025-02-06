@@ -1,6 +1,6 @@
-Lancement des base de données :
+Lancement des bases de données :
 Etape 1 : Télécharger docker et docker compose
-Etape 2 : exécuté la commande : docker compose up -d // Pour lancer les conteneurs
+Etape 2 : Exécuter la commande : docker compose up -d // Pour lancer les conteneurs
 
 -----------------------------------------------------
 Initialisation de la base de données MySql
