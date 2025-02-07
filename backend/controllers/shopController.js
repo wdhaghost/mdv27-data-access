@@ -14,7 +14,6 @@ export const getAllMedidonc = async (req, res) => {
   }
 };
 
-// Récupérer tous les documents de la collection GamEZ
 export const getAllGamez = async (req, res) => {
   try {
     const gamezDocs = await GamEZ.find();
@@ -24,7 +23,6 @@ export const getAllGamez = async (req, res) => {
   }
 };
 
-// Récupérer tous les documents de la collection SportSalut
 export const getAllSportSalut = async (req, res) => {
   try {
     const sportsalutDocs = await SportSalut.find();

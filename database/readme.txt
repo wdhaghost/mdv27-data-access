@@ -1,6 +1,6 @@
 Docker :
 Le docker-compose contient 3 conteneurs :
- - une BDD mongoDB exposé sur le port : 27017
+ - une BDD mongoDB exposé sur le port : 27017 (utiliser le nom de BDD "projetProduits" dans les .env)
  - une BDD mysql exposé sur le port : 3306
  - un PHPMyAdmin exposé sur le port : 8080
 

@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 import connection from "./config/mysql.js"; // Import de la connexion MySQL
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Connexion à MongoDB
-await mongoose.connect("mongodb://localhost:27017/projetProduits", {
+const URI = process.env.MONGODB_URI
+await mongoose.connect(URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

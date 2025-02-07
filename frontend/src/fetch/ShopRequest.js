@@ -15,7 +15,7 @@ export async function getAllMedidonc(){
 }
 
 export async function getAllGamez(){
-    return await fetch(`${url}/api/medidonc`,{
+    return await fetch(`${url}/api/gamez`,{
         method:'GET',
         headers: {
             "Content-Type":"application/json"
@@ -29,7 +29,7 @@ export async function getAllGamez(){
 }
 
 export async function getAllSportSalut(){
-    return await fetch(`${url}/api/medidonc`,{
+    return await fetch(`${url}/api/sportsalut`,{
         method:'GET',
         headers: {
             "Content-Type":"application/json"

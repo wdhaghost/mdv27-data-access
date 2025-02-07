@@ -5,6 +5,7 @@ const storeSportSalut = useSportSalutStore();
 
 onMounted(async ()=>{
     await storeSportSalut.update();
+    console.log(storeSportSalut.products)
 })
 </script>
 
