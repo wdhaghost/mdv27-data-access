@@ -11,10 +11,10 @@ export const getProductById = (id,callback) => {
 
 export const createProduct = (product,callback) => {
   const { nom, description, prix, categorie, revendeur } = product;
-  if (categorie && !/^[A-Za-z]+$/.test(categorie)) {
+  if (categorie && !/^[A-Za-z_]+$/.test(categorie)) {
     return callback(new Error("La catégorie doit contenir uniquement des lettres."));
   }
-  if (revendeur && !/^[A-Za-z]+$/.test(revendeur)) {
+  if (revendeur && !/^[A-Za-z_]+$/.test(revendeur)) {
     return callback(new Error("Le revendeur doit contenir uniquement des lettres."));
   }
   

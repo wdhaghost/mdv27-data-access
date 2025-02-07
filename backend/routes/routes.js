@@ -2,8 +2,13 @@ import {Router} from "express"
 import * as productController from '../controllers/productController.js' 
 import * as resellerController from '../controllers/resellerController.js' 
 import * as categoryController from '../controllers/categoryControllery.js'
+import { getAllMedidonc, getAllGamez, getAllSportSalut } from "../controllers/shopController.js";
 
-const router = Router()
+const router = Router();
+
+router.get("/medidonc", getAllMedidonc);
+router.get("/gamez", getAllGamez);
+router.get("/sportsalut", getAllSportSalut);
 
 router.get('/products',productController.getAllProduct)
 router.get('/products/:id',productController.getProductById)
@@ -17,6 +22,7 @@ router.put('/resellers',resellerController.updateReseller)
 router.delete('/resellers',resellerController.deleteReseller)
 
 router.get('/categories',categoryController.getAllCategories)
+
 
 
 
