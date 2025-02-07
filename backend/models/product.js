@@ -27,6 +27,6 @@ export const updateProduct = (product,callback) => {
   
   const query = 'CALL ModifyProduit(?,?, ?, ?, ?)';
     
-  db.query(query, [id,nom, description, prix, statut], callback);
+  db.query(query, [id, nom, description, prix, statut], callback);
     
 };
