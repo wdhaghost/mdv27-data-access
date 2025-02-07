@@ -1,6 +1,6 @@
 const url = import.meta.env.VITE_BACKEND_URL;
 
-async function getAllMedidonc(){
+export async function getAllMedidonc(){
     return await fetch(`${url}/api/medidonc`,{
         method:'GET',
         headers: {
@@ -14,7 +14,7 @@ async function getAllMedidonc(){
     });
 }
 
-async function getAllGamez(){
+export async function getAllGamez(){
     return await fetch(`${url}/api/medidonc`,{
         method:'GET',
         headers: {
@@ -28,7 +28,7 @@ async function getAllGamez(){
     });
 }
 
-async function getAllSportSalut(){
+export async function getAllSportSalut(){
     return await fetch(`${url}/api/medidonc`,{
         method:'GET',
         headers: {
