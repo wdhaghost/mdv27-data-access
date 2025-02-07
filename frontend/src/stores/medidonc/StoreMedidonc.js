@@ -4,7 +4,7 @@ export const useMedidoncStore = defineStore('medidonc', () => {
     const products = ref([]);
 
     async function update() {
-        
+        this.products = await getAllMedidonc();
     }
     return { products, update };
 });
