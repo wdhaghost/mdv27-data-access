@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : jeu. 06 fév. 2025 à 14:43
+-- Généré le : ven. 07 fév. 2025 à 15:42
 -- Version du serveur : 9.2.0
 -- Version de PHP : 8.2.27
 
@@ -18,6 +18,7 @@ USE plateformecentrale;
 -- CREATE USER
 CREATE USER 'userAPI'@'%' IDENTIFIED BY 'APIPassword';
 GRANT SELECT, EXECUTE ON plateformecentrale.* TO 'userAPI'@'%';
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -63,35 +64,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateRevendeur` (IN `nomRevendeur`
 	INSERT INTO revendeurs(nom, date_creation) VALUES (nomRevendeur, DATE(NOW()));
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteRevendeur` (IN `nomRevendeur` VARCHAR(64))   BEGIN
-	DECLARE done INT DEFAULT FALSE;
-	DECLARE value_to_delete VARCHAR(255);
-	DECLARE IDRevendeur INT;
-	DECLARE cur CURSOR FOR 
-		SELECT produits_id 
-		FROM produits_revendeurs
-		WHERE revendeurs_id = IDRevendeur;
-	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteRevendeur` (IN `revendeurID` VARCHAR(64))   BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE value_to_delete VARCHAR(255);
+    DECLARE cur CURSOR FOR 
+        SELECT produits_id 
+        FROM produits_revendeurs
+        WHERE revendeurs_id = revendeurID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    OPEN cur;
 
-	SELECT revendeurs_id INTO IDRevendeur from revendeurs where revendeurs.nom = nomRevendeur;
-	IF (IDRevendeur IS NOT NULL) THEN
+        read_loop: LOOP
+            FETCH cur INTO value_to_delete;
+            IF done THEN
+                    LEAVE read_loop;
+            END IF;
+            DELETE FROM produits_revendeurs WHERE produits_id = value_to_delete;
+            DELETE FROM produits_categories WHERE produits_id = value_to_delete;
+            DELETE FROM produits WHERE produits_id = value_to_delete;
+        END LOOP;
 
-		OPEN cur;
-
-		read_loop: LOOP
-			FETCH cur INTO value_to_delete;
-			IF done THEN
-					LEAVE read_loop;
-			END IF;
-			DELETE FROM produits_revendeurs WHERE produits_id = value_to_delete;
-			DELETE FROM produits_categories WHERE produits_id = value_to_delete;
-			DELETE FROM produits WHERE produits_id = value_to_delete;
-		END LOOP;
-
-		CLOSE cur;
-		
-		DELETE FROM revendeurs WHERE revendeurs.nom = nomRevendeur;
-	END IF;
+    CLOSE cur;
+        
+    DELETE FROM revendeurs WHERE revendeurs.revendeurs_id = revendeurID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ModifyCategorie` (IN `categorieID` INT, IN `nomCategorie` VARCHAR(64))   BEGIN	
@@ -153,6 +148,16 @@ CREATE TABLE `categories` (
   `date_creation` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `categories`
+--
+
+INSERT INTO `categories` (`categories_id`, `nom`, `date_creation`) VALUES
+(1, 'sante', '2025-02-06'),
+(2, 'sport', '2025-02-06'),
+(3, 'jeux_videos', '2025-02-06'),
+(4, 'jeux_societe', '2025-02-06');
+
 -- --------------------------------------------------------
 
 --
@@ -169,6 +174,18 @@ CREATE TABLE `produits` (
   `date_modification` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `produits`
+--
+
+INSERT INTO `produits` (`produits_id`, `nom`, `description`, `prix_achat`, `statut`, `date_creation`, `date_modification`) VALUES
+(5, 'Produit Test JV', 'Description', 12.00, 1, '2025-02-06', NULL),
+(6, 'Produit Test Jeu Societe', 'Description', 12.00, 1, '2025-02-06', NULL),
+(7, 'Produit Sport 1', 'Description Produit', 8.00, 1, '2025-02-07', NULL),
+(8, 'Produit Sport 2', 'Description Produit', 8.00, 1, '2025-02-07', NULL),
+(9, 'Produit Sport 1 MEDI', 'Description Produit', 8.00, 1, '2025-02-07', NULL),
+(10, 'Produit Sante 1', 'Description Produit', 8.00, 1, '2025-02-07', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -179,6 +196,18 @@ CREATE TABLE `produits_categories` (
   `produits_id` int UNSIGNED NOT NULL,
   `categories_id` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `produits_categories`
+--
+
+INSERT INTO `produits_categories` (`produits_id`, `categories_id`) VALUES
+(5, 3),
+(6, 4),
+(7, 2),
+(8, 2),
+(9, 2),
+(10, 1);
 
 -- --------------------------------------------------------
 
@@ -191,6 +220,18 @@ CREATE TABLE `produits_revendeurs` (
   `revendeurs_id` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `produits_revendeurs`
+--
+
+INSERT INTO `produits_revendeurs` (`produits_id`, `revendeurs_id`) VALUES
+(5, 3),
+(6, 3),
+(7, 4),
+(8, 4),
+(9, 5),
+(10, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -202,6 +243,15 @@ CREATE TABLE `revendeurs` (
   `nom` varchar(120) NOT NULL,
   `date_creation` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `revendeurs`
+--
+
+INSERT INTO `revendeurs` (`revendeurs_id`, `nom`, `date_creation`) VALUES
+(3, 'gamez', '2025-02-06'),
+(4, 'sportsalut', '2025-02-07'),
+(5, 'medidonc', '2025-02-07');
 
 --
 -- Index pour les tables déchargées
@@ -253,13 +303,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `produits`
 --
 ALTER TABLE `produits`
-  MODIFY `produits_id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `produits_id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `revendeurs`
 --
 ALTER TABLE `revendeurs`
-  MODIFY `revendeurs_id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `revendeurs_id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Contraintes pour les tables déchargées
