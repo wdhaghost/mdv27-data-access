@@ -14,19 +14,6 @@ export async function getAllSeller() {
     })
 }
 
-export async function createSeller(seller) {
-    return await fetch(`${url}/api/resellers`, {
-        method: "POST",
-        headers: {
-            "Content-Type":"application/json"
-        },
-        body: JSON.stringify(seller)
-    }).catch((error) => {
-        console.error(error);
-        return { message: "Echec de création du revendeur !" }
-    })
-}
-
 export async function updateSeller(seller) {
     return await fetch(`${url}/api/resellers`, {
         method: "PUT",

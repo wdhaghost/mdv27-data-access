@@ -38,13 +38,3 @@ export async function updateProduct(product) {
         return { message: "Echec de mise à jour du produit !" };
     })
 }
-
-export async function deleteProduct(product) {
-    return await fetch(`${url}/api/products`, {
-        method: 'DELETE',
-        headers: {
-            "Content-Type":"application/json"
-        },
-        body: JSON.stringify(product)
-    })
-}

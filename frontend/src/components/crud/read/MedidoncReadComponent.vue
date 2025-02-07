@@ -1,9 +1,18 @@
 <script setup lang="js">
-const products = [];
+import { useMedidoncStore } from '@/stores/medidonc/StoreMedidonc';
+import { onMounted } from 'vue';
+const storeMedidonc = useMedidoncStore();
+
+onMounted(async ()=>{
+    await storeMedidonc.update();
+})
 </script>
 
 <template>
-    <ul v-for="product in products">
+    <button @click="async ()=>{
+        await storeMedidonc.update();
+    }">Rafraîchir</button>
+    <ul v-for="product in storeMedidonc.products">
         <li><span>Nom du produit :</span> {{ product.p_name }}</li>
         <li><span>Description :</span>{{ product.p_description }}</li>
         <li><span>Date de dernière MAJ :</span>{{ product.p_last_update }}</li>
