@@ -1,9 +1,8 @@
 <script setup lang="js">
 import { ref } from "vue";
 import { createProduct } from '@/fetch/ProductRequest';
-import { createSeller } from "@/fetch/SellerRequest";
-import { useSellerStore } from "@/stores/StoreSellers";
-import { useProductStore } from "@/stores/StoreProducts";
+import { useProductStore } from "@/stores/systeme-centrale/StoreProducts";
+import { useSellerStore } from "@/stores/systeme-centrale/StoreSellers";
 const productStore = useProductStore();
 const sellerStore = useSellerStore();
 const product = ref({
@@ -13,10 +12,6 @@ const product = ref({
     categorie: "",
     revendeur: ""
 });
-
-const seller = ref({
-    name: "",
-});
 </script>
 
 <template>
@@ -25,10 +20,11 @@ const seller = ref({
         <form @submit.prevent="async () => {
             await createProduct(product);
             await productStore.update();
+            await sellerStore.update();
         }">
             <h3>Produit</h3>
             <div>
-                <input id="product_name" type="text" v-model="product.nom" />
+                <input id="product_name" type="text" v-model="product.nom" autocomplete="off"/>
                 <label for="product_name">Nom</label>
             </div>
             <div>
@@ -40,7 +36,7 @@ const seller = ref({
                 <label for="price">Prix d'achat</label>
             </div>
             <div>
-                <input id="product_categorie" type="text" v-model="product.categorie" list="categories-list"/>
+                <input id="product_categorie" type="text" v-model="product.categorie" list="categories-list" autocomplete="off"/>
                 <label for="product_categorie">Nom de la catégorie</label>
 
                 <datalist id="categories-list">
@@ -48,20 +44,11 @@ const seller = ref({
                 </datalist>
             </div>
             <div>
-                <input id="product_seller" type="text" v-model="product.revendeur" />
+                <input id="product_seller" list="seller-list" type="text" v-model="product.revendeur" autocomplete="off"/>
                 <label for="product_seller">Nom du revendeur</label>
-            </div>
-            <button>Créer</button>
-        </form>
-
-        <form @submit.prevent="async () => {
-            await createSeller(seller);
-            await sellerStore.update();
-        }">
-            <h3>Revendeur</h3>
-            <div>
-                <input id="seller_name" type="text" v-model="seller.name" />
-                <label for="seller_name">Nom</label>
+                <datalist id="seller-list">
+                    <option v-for="seller in sellerStore.sellers" :value="seller.nom"></option>
+                </datalist>
             </div>
             <button>Créer</button>
         </form>
