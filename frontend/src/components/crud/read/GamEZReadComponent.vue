@@ -1,9 +1,16 @@
 <script setup lang="js">
 import { useGamezStore } from '@/stores/gamez/StoreGamez';
+import { onMounted } from 'vue';
 const gamezStore = useGamezStore();
 
+onMounted(async ()=>{
+    await gamezStore.update();
+})
 </script>
 <template>
+    <button @click="async ()=>{
+        await gamezStore.update();
+    }">Rafraîchir</button>
     <ul v-for="result in gamezStore.results">
         <li><span>Nom du produit :</span> {{ result.product.product_name }}</li>
         <li><span>Description :</span>{{ result.product.product_description }}</li>
