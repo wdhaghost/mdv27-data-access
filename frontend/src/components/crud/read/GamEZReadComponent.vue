@@ -1,33 +1,10 @@
 <script setup lang="js">
-const results = [
-    {
-        product: { product_name: "produit1", product_description: "description", product_price: 10, product_status: "available", product_type: "jeux vidéo" },
-        seller: { seller_name: "bernard", creation_date: Date.now() }
-    },
-    {
-        product: { product_name: "produit1", product_description: "description", product_price: 10, product_status: "available", product_type: "jeux vidéo" },
-        seller: { seller_name: "bernard", creation_date: Date.now() }
-    },
-    {
-        product: { product_name: "produit1", product_description: "description", product_price: 10, product_status: "available", product_type: "jeux vidéo" },
-        seller: { seller_name: "bernard", creation_date: Date.now() }
-    },
-    {
-        product: { product_name: "produit1", product_description: "description", product_price: 10, product_status: "available", product_type: "jeux vidéo" },
-        seller: { seller_name: "bernard", creation_date: Date.now() }
-    },
-    {
-        product: { product_name: "produit1", product_description: "description", product_price: 10, product_status: "available", product_type: "jeux vidéo" },
-        seller: { seller_name: "bernard", creation_date: Date.now() }
-    },
-    {
-        product: { product_name: "produit1", product_description: "description", product_price: 10, product_status: "available", product_type: "jeux vidéo" },
-        seller: { seller_name: "bernard", creation_date: Date.now() }
-    }
-];
+import { useGamezStore } from '@/stores/gamez/StoreGamez';
+const gamezStore = useGamezStore();
+
 </script>
 <template>
-    <ul v-for="result in results">
+    <ul v-for="result in gamezStore.results">
         <li><span>Nom du produit :</span> {{ result.product.product_name }}</li>
         <li><span>Description :</span>{{ result.product.product_description }}</li>
         <li><span>Prix : </span>{{ result.product.product_price }}</li>

@@ -1,9 +1,10 @@
 <script setup lang="js">
-const products = [];
+import { useMedidoncStore } from '@/stores/medidonc/StoreMedidonc';
+const storeMedidonc = useMedidoncStore();
 </script>
 
 <template>
-    <ul v-for="product in products">
+    <ul v-for="product in storeMedidonc.products">
         <li><span>Nom du produit :</span> {{ product.p_name }}</li>
         <li><span>Description :</span>{{ product.p_description }}</li>
         <li><span>Date de dernière MAJ :</span>{{ product.p_last_update }}</li>
