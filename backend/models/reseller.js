@@ -31,7 +31,8 @@ export const updateReseller = (reseller,callback) => {
 };
 
 export const deleteReseller = (reseller,callback) => {
-    const {name} = reseller
+    console.log(reseller)
+    const {id} = reseller
     const query = 'CALL DeleteRevendeur(?)';
-    db.query(query,[name],callback)
+    db.query(query,[id],callback)
 };
