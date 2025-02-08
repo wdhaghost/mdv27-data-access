@@ -33,7 +33,7 @@ async function callbackUpdateProduct(product) {
 }
 
 async function callbackDeleteSeller(seller) {
-    const sellerToDelete = { name: seller.nom }
+    const sellerToDelete = { id: seller.revendeurs_id }
     await deleteSeller(sellerToDelete);
     productStore.update();
     sellerStore.update();
